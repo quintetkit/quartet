@@ -56,6 +56,18 @@ cd /path/to/your-project
 ./setup.sh          # 状態管理に使うラベルを作成（gh CLI が必要）
 ```
 
+`.github/workflows/issue-status.yml` も入っています。PR の動きに合わせて、
+紐づく Issue の status ラベルを自動で張り替えます。
+
+| PR で起きたこと | Issue のラベル |
+|---|---|
+| PR が作られた | `status:review` |
+| レビューで changes requested | `status:changes-requested` |
+| PR がマージされた | `status:done` |
+
+PR 本文の `Closes #<番号>` から Issue を特定します。人格にラベル操作を任せると
+付け忘れが必ず起きるので、状態管理は機械に寄せています。
+
 あとは Claude Code にこう頼みます。
 
 ```
@@ -83,8 +95,8 @@ Issue が出来たら、並列着手グループの Coder を **1 メッセー�
 紫のグラデーション）がそのまま出てきます。
 
 実装より先に UI 仕様を確定させる 5 人格目を挟むとこれを避けられます。
-その UI Designer 人格と、ラベル運用・並列実行の自動化をまとめたものを
-**Quintet** として配布しています（[BOOTH](https://booth.pm/) / [Gumroad](https://gumroad.com/)）。
+その UI Designer 人格と、Reviewer の判定基準、Issue 単位の並列実行スクリプト、
+実践ガイド 10 章（日英）をまとめたものを **Quintet** として配布しています（[BOOTH](https://booth.pm/) / [Gumroad](https://gumroad.com/)）。
 
 UI Designer の評価軸は「人間が判断した跡が残っているか」の一点です。
 グラデーション背景、純黒 `#000000` と純白 `#ffffff`、全画面中央揃えのヒーロー、

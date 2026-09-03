@@ -1,0 +1,79 @@
+# PR の動きに合わせて、紐づく Issue の status ラベルを自動で更新する。
+#
+# 人格側にラベル操作を任せると、付け忘れ・付け間違いが必ず起きる。
+# 状態管理はこのワークフローに任せ、人格は「何をしたか」だけに集中させる。
+name: issue-status
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review, closed]
+  pull_request_review:
+    types: [submitted]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+concurrency:
+  # 同じ PR の連続イベントでラベル更新が競合しないよう直列化する
+  group: issue-status-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 紐づく Issue を特定してラベルを更新
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_MERGED: ${{ github.event.pull_request.merged }}
+          ACTION: ${{ github.event.action }}
+          REVIEW_STATE: ${{ github.event.review.state }}
+        run: |
+          set -euo pipefail
+
+          # PR 本文の Closes/Fixes/Resolves #<n> から Issue 番号を集める
+          issues="$(printf '%s' "${PR_BODY:-}" \
+            | grep -oiE '(close[sd]?|fixe?[sd]?|resolve[sd]?)[[:space:]]*#[0-9]+' \
+            | grep -oE '[0-9]+' \
+            | sort -u || true)"
+
+          if [ -z "$issues" ]; then
+            echo "紐づく Issue が本文にありません。何もしません。"
+            echo "PR 本文に 'Closes #<番号>' を書いてください。"
+            exit 0
+          fi
+
+          # イベントから、あるべき状態を1つ決める
+          target=""
+          if [ "$ACTION" = "closed" ]; then
+            if [ "$PR_MERGED" = "true" ]; then target="status:done"; else target=""; fi
+          elif [ "$ACTION" = "submitted" ]; then
+            case "${REVIEW_STATE:-}" in
+              changes_requested) target="status:changes-requested" ;;
+              *) target="" ;;
+            esac
+          else
+            target="status:review"
+          fi
+
+          if [ -z "$target" ]; then
+            echo "このイベントでは状態を変えません (action=${ACTION}, review=${REVIEW_STATE:-none})"
+            exit 0
+          fi
+
+          # status: ラベルは常に1つだけにする
+          all="status:planned status:in-progress status:review status:changes-requested status:conflict status:done"
+
+          for n in $issues; do
+            echo "Issue #${n} -> ${target}"
+            # 付いていないラベルの削除でコケないよう、失敗は許容して個別に処理する
+            gh issue edit "$n" --repo "$REPO" --add-label "$target" >/dev/null
+            for l in $all; do
+              [ "$l" = "$target" ] && continue
+              gh issue edit "$n" --repo "$REPO" --remove-label "$l" >/dev/null 2>&1 || true
+            done
+          done

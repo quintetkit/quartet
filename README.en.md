@@ -54,6 +54,18 @@ cd /path/to/your-project
 ./setup.sh          # Creates labels used for state management (requires gh CLI)
 ```
 
+`.github/workflows/issue-status.yml` is included as well. It moves the status
+label on the linked Issue in step with the PR.
+
+| What happened on the PR | Issue label |
+|---|---|
+| PR opened | `status:review` |
+| Review requested changes | `status:changes-requested` |
+| PR merged | `status:done` |
+
+It finds the Issue from `Closes #<n>` in the PR body. Personas forget to move
+labels, so state tracking is left to the machine.
+
 Then, ask Claude Code as follows:
 
 ```
@@ -74,7 +86,7 @@ Three points to understand before reading:
 
 This four-persona structure does not address UI design. Therefore, if you ask it to create screens, it will generate typical AI defaults (full-width centered hero sections, 3-column cards with icons, purple gradients).
 
-You can avoid this by inserting a fifth persona that finalizes UI specifications before implementation. We distribute **Quintet**, which includes this UI Designer persona along with label management and parallel execution automation ([BOOTH](https://booth.pm/) / [Gumroad](https://gumroad.com/)).
+You can avoid this by inserting a fifth persona that finalizes UI specifications before implementation. We distribute **Quintet**, which adds this UI Designer persona, the Reviewer's decision criteria, a per-Issue parallel execution script, and a 10-chapter practical guide in English and Japanese ([BOOTH](https://booth.pm/) / [Gumroad](https://gumroad.com/)).
 
 The evaluation criterion for the UI Designer is solely "whether traces of human judgment remain." It explicitly prohibits AI defaults such as gradient backgrounds, pure black `#000000` and pure white `#ffffff`, full-width centered hero sections, and 3-column equal-width cards with icons. It requires designing states for all eight conditions: default / hover / focus-visible / active / disabled / loading / error / success.
 
