@@ -13,7 +13,6 @@ on:
 permissions:
   contents: read
   issues: write
-  pull-requests: read
 
 concurrency:
   # 同じ PR の連続イベントでラベル更新が競合しないよう直列化する
@@ -30,6 +29,7 @@ jobs:
           REPO: ${{ github.repository }}
           PR_BODY: ${{ github.event.pull_request.body }}
           PR_MERGED: ${{ github.event.pull_request.merged }}
+          PR_DRAFT: ${{ github.event.pull_request.draft }}
           ACTION: ${{ github.event.action }}
           REVIEW_STATE: ${{ github.event.review.state }}
         run: |
@@ -56,6 +56,10 @@ jobs:
               changes_requested) target="status:changes-requested" ;;
               *) target="" ;;
             esac
+          elif [ "${PR_DRAFT:-false}" = "true" ]; then
+            # draft の PR はまだレビュー待ちではない。ready_for_review を
+            # types に入れている以上、ここで review にしては辻褄が合わない。
+            target="status:in-progress"
           else
             target="status:review"
           fi
