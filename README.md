@@ -105,6 +105,16 @@ UI Designer の評価軸は「人間が判断した跡が残っているか」�
 状態は 8 つ（default / hover / focus-visible / active / disabled / loading / error / success）
 すべて設計させます。
 
+## 関連するツール
+
+このワークフローは「**ファイルを共有する Issue は並列に走らせない**」を前提にしています。
+それを機械で確かめるものを、別に MIT で公開しています。
+
+- [scopecheck](https://github.com/quintetkit/scopecheck) — 開いている Issue のうち、
+  対象範囲が重なっている組を、**重なっているファイルを名指しで**報告します
+- [ccheck](https://github.com/quintetkit/ccheck) — `.claude/` の設定を検査します。
+  指摘には必ず公式ドキュメントへの出典が付きます
+
 ## ライセンス
 
 MIT

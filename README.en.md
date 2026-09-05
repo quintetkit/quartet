@@ -90,6 +90,16 @@ You can avoid this by inserting a fifth persona that finalizes UI specifications
 
 The evaluation criterion for the UI Designer is solely "whether traces of human judgment remain." It explicitly prohibits AI defaults such as gradient backgrounds, pure black `#000000` and pure white `#ffffff`, full-width centered hero sections, and 3-column equal-width cards with icons. It requires designing states for all eight conditions: default / hover / focus-visible / active / disabled / loading / error / success.
 
+## Related tools
+
+This workflow rests on one rule: **Issues that share a file must not run in
+parallel.** Two MIT tools check things it takes for granted.
+
+- [scopecheck](https://github.com/quintetkit/scopecheck) reports the open Issues
+  whose declared scopes overlap, naming the files they have in common
+- [ccheck](https://github.com/quintetkit/ccheck) lints a `.claude/` directory,
+  citing the documentation behind every finding
+
 ## License
 
 MIT
