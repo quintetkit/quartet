@@ -96,7 +96,8 @@ Issue が出来たら、並列着手グループの Coder を **1 メッセー�
 
 実装より先に UI 仕様を確定させる 5 人格目を挟むとこれを避けられます。
 その UI Designer 人格と、Reviewer の判定基準、Issue 単位の並列実行スクリプト、
-実践ガイド 10 章（日英）をまとめたものを **Quintet** として配布しています（[BOOTH](https://booth.pm/) / [Gumroad](https://gumroad.com/)）。
+実践ガイド 10 章（日英）をまとめたものを **Quintet** として配布しています（[BOOTH で ¥4,980](https://quartet-dev.booth.pm/items/8807156)）。
+実践ガイドだけなら [Zenn Book で ¥1,500](https://zenn.dev/quintetkit/books/claude-code-parallel-workflow) でも読めます（2章まで無料）。
 
 UI Designer の評価軸は「人間が判断した跡が残っているか」の一点です。
 グラデーション背景、純黒 `#000000` と純白 `#ffffff`、全画面中央揃えのヒーロー、
