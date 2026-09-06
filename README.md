@@ -151,6 +151,13 @@ UI Designer の評価軸は「人間が判断した跡が残っているか」�
 - [ccheck](https://github.com/quintetkit/ccheck) — `.claude/` の設定を検査します。
   指摘には必ず公式ドキュメントへの出典が付きます
 
+どちらも依存ゼロで、インストールせずに試せます。
+
+```bash
+npx @quintetkit/ccheck        # リポジトリ直下で
+npx @quintetkit/scopecheck --repo owner/name
+```
+
 ## ライセンス
 
 MIT

@@ -136,6 +136,13 @@ parallel.** Two MIT tools check things it takes for granted.
 - [ccheck](https://github.com/quintetkit/ccheck) lints a `.claude/` directory,
   citing the documentation behind every finding
 
+Both have no dependencies and run without installing anything.
+
+```bash
+npx @quintetkit/ccheck        # from your repository root
+npx @quintetkit/scopecheck --repo owner/name
+```
+
 ## License
 
 MIT
