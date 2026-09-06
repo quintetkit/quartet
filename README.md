@@ -46,6 +46,42 @@ Quartet は責務を分け、**役割ごとに権限を落とします**。
                                    └─ コンフリクト → [Conflict Resolver] → Reviewer
 ```
 
+## どこまでが機械で強制されているか
+
+**「書かない」を、指示だけで担保していません。** ツールの割り当てで落としています。
+
+| 人格 | `tools` | Write / Edit |
+|---|---|---|
+| Architect | `Bash, Read, Grep, Glob` | **持っていない** |
+| Reviewer | `Bash, Read, Grep, Glob` | **持っていない** |
+| Conflict Resolver | `Bash, Read, Edit, Grep, Glob` | Edit のみ |
+| Coder | `*` | 持っている |
+
+Architect と Reviewer は、**ファイルを編集する道具そのものを持っていません。**
+「書かないでください」とお願いしているのではなく、書く手段がありません。
+
+### 強制されていないもの
+
+正直に書いておきます。**4 人格とも `Bash` を持っています。**
+
+そのため、次の3つは**指示でしか担保されていません。**
+
+- Coder が scope 外のファイルを触らないこと
+- Coder がマージしないこと（`gh pr merge` は Bash から叩けます）
+- Reviewer が実装しないこと（`Bash` からファイルは作れます）
+
+`Bash` を外すと、テスト実行・`git`・`gh` が全部使えなくなり、
+このワークフローは成立しません。**外せないので、代わりに境界を明示しています。**
+
+守らせたい場合は、`.claude/settings.json` の
+[`permissions.deny`](https://code.claude.com/docs/en/settings-reference) で
+`Bash(gh pr merge:*)` のような規則を足せます。
+ただし**セッション全体に効く**ので、Reviewer のマージも止まります。
+人格ごとに Bash のサブコマンドを分ける手段は、いまのところありません。
+
+**「機械で止まるもの」と「約束でしかないもの」を混ぜて説明しないのが、
+このリポジトリの方針です。**
+
 ## 使い方
 
 ```bash

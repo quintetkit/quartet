@@ -44,6 +44,42 @@ Request → [Architect] Split into Issues (create groups with non-overlapping sc
                                     └─ Conflict → [Conflict Resolver] → Reviewer
 ```
 
+## What is enforced and what is only asked
+
+**"Does not write code" is not left to instructions.** It is removed at the tool level.
+
+| Persona | `tools` | Write / Edit |
+|---|---|---|
+| Architect | `Bash, Read, Grep, Glob` | **not available** |
+| Reviewer | `Bash, Read, Grep, Glob` | **not available** |
+| Conflict Resolver | `Bash, Read, Edit, Grep, Glob` | Edit only |
+| Coder | `*` | available |
+
+Architect and Reviewer do not have the tools that edit files. They are not being
+asked not to write code; they have no way to.
+
+### What is not enforced
+
+Stated plainly: **all four personas have `Bash`.**
+
+So these three rest on instructions alone:
+
+- the Coder staying inside its declared scope
+- the Coder not merging (`gh pr merge` is reachable from Bash)
+- the Reviewer not implementing (a file can be written from Bash)
+
+Removing `Bash` would take away test runs, `git` and `gh`, and the workflow
+stops working. **It cannot be removed, so the boundary is documented instead.**
+
+If you want it enforced, add rules such as `Bash(gh pr merge:*)` to
+[`permissions.deny`](https://code.claude.com/docs/en/settings-reference) in
+`.claude/settings.json`. Note that those apply to **the whole session**, so the
+Reviewer's merges stop too. There is currently no way to vary Bash subcommand
+permissions per persona.
+
+**Not mixing "the machine stops this" with "we asked nicely" is the policy of
+this repository.**
+
 ## Usage
 
 ```bash
