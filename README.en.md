@@ -122,7 +122,7 @@ Three points to understand before reading:
 
 This four-persona structure does not address UI design. Therefore, if you ask it to create screens, it will generate typical AI defaults (full-width centered hero sections, 3-column cards with icons, purple gradients).
 
-You can avoid this by inserting a fifth persona that finalizes UI specifications before implementation. We distribute **Quintet**, which adds this UI Designer persona, the Reviewer's decision criteria, a per-Issue parallel execution script, and a 10-chapter practical guide in English and Japanese ([Quintet on BOOTH, ¥4,980](https://quartet-dev.booth.pm/items/8807156) — a Japanese storefront with an English interface that takes international cards).
+You can avoid this by inserting a fifth persona that finalizes UI specifications before implementation. We distribute **Quintet**, which adds this UI Designer persona, the Reviewer's decision criteria, a per-Issue parallel execution script, and a 10-chapter practical guide in English and Japanese ([Quintet, $39](https://quintetkit.gumroad.com/l/quintet)).
 
 The evaluation criterion for the UI Designer is solely "whether traces of human judgment remain." It explicitly prohibits AI defaults such as gradient backgrounds, pure black `#000000` and pure white `#ffffff`, full-width centered hero sections, and 3-column equal-width cards with icons. It requires designing states for all eight conditions: default / hover / focus-visible / active / disabled / loading / error / success.
 
